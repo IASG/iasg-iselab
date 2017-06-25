@@ -2,6 +2,8 @@
 import datetime
 import getpass
 import logging
+import os
+import shlex
 
 from peewee import DoesNotExist
 
@@ -56,7 +58,7 @@ def main():
             print("Sorry, you're locked out. Please request help in the #iselab channel on https://iasg.slack.com.")
             raise SystemExit
     user.last_login = datetime.datetime.now()
-    print("Everything work well!")
+    os.system("sshpass -p {} ssh {}@{}", user.privpass, user.host, shlex.quote(user.username))
 
 
 if __name__ == '__main__':
