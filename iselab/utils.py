@@ -29,8 +29,10 @@ def provision(user: User):
             key = paramiko.RSAKey.from_private_key_file(PRIVKEY)
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ssh.connect(user.host, username='provisioner', pkey=key)
-            ssh.exec_command("useradd {}".format(shlex.quote(user.netid)))
-            ssh.exec_command("echo '{}':'{}' | chpasswd ".format(shlex.quote(user.netid), user.privpass))
+            ssh.exec_command("sudo useradd {} -s /bin/bash".format(shlex.quote(user.netid)))
+            ssh.exec_command("echo '{}':'{}' | sudo chpasswd ".format(shlex.quote(user.netid), user.privpass))
+            ssh.exec_command("sudo mkdir /home/{}".format(shlex.quote(user.netid)))
+            ssh.exec_command("sudo chown -R {0}:{0} /home/{0}".format(shlex.quote(user.netid)))
         except Exception as e:
             logging.error("Error provisioning {}: {}".format(user.netid, e))
             print("Warning!!! We couldn't fully set up your account. Get help in #iselab on https://iasg.slack.com.")

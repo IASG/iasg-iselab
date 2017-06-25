@@ -28,3 +28,62 @@ WARNING:root:NetID kokel response was: None
 INFO:root:Created account kokelley
 ERROR:root:Error provisioning kokelley: [Errno 2] No such file or directory: '/home/iasg/.ssh/id_rsa'
 INFO:root:Provisioned kokelley on kali2.iasg.net
+INFO:root:User kokelley exists
+INFO:root:Username kokelley didn't exist, creating new user.
+INFO:root:Created account kokelley
+ERROR:root:Error provisioning kokelley: [Errno 2] No such file or directory: '/home/iasg/.ssh/id_rsa'
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_7.4p1)
+INFO:paramiko.transport:Auth banner: b'###############################################################\n#                Welcome to keaneokelley.com!                 # \n#         All connections are monitored and recorded.         #\n#  Disconnect IMMEDIATELY if you are not an authorized user!  #\n###############################################################\n'
+INFO:paramiko.transport:Authentication (publickey) successful!
+INFO:root:Provisioned kokelley on kali1.iasg.net
+INFO:root:User kokelley exists
+INFO:root:User kokelley exists
+INFO:root:User kokelley exists
+INFO:root:User kokelley exists

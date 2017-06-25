@@ -23,7 +23,7 @@ class BaseModel(Model):
 
 
 def tmppass() -> str:
-    chars = "abcdefghijklmnopqrstuvwxyziABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890^?!?$%&/()=?`'+#*'~';:_,.-<>|"
+    chars = "abcdefghijklmnopqrstuvwxyziABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890^?!?$%&/()=?`+#*~;:_,.-<>|"
     password = ""
     while not len(password) == 35:
         password += random.choice(chars)

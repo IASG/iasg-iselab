@@ -6,6 +6,6 @@ QUERY_STRING = 'ou=people,dc=iastate,dc=edu'
 PRIVKEY = '/home/iasg/.ssh/id_rsa'
 db = SqliteDatabase('iasg.db')
 try:
-    from settings_local import *
+    from iselab.settings_local import *
 except ImportError:
     pass

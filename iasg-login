@@ -7,7 +7,7 @@ import os
 from peewee import DoesNotExist
 
 from iselab.models import User, db_init
-from iselab.utils import create_user
+from iselab.utils import create_user, provision
 
 WELCOME_MESSAGE = """### Welcome to the IASG ISELab!!! ###
 For assistance, join the #iselab channel on https://iasg.slack.com.
@@ -58,7 +58,7 @@ def main():
             raise SystemExit
     user.last_login = datetime.datetime.now()
     print("Welcome back, {}! Connecting you now.".format(username))
-    os.system("sshpass -p {} ssh {}@{}".format(user.privpass, user.host, user.netid))
+    os.system("sshpass -p '{}' ssh {}@{}".format(user.privpass, user.netid, user.host))
 
 
 if __name__ == '__main__':
