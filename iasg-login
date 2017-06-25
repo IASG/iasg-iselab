@@ -3,7 +3,6 @@ import datetime
 import getpass
 import logging
 import os
-import shlex
 
 from peewee import DoesNotExist
 
@@ -59,7 +58,7 @@ def main():
             raise SystemExit
     user.last_login = datetime.datetime.now()
     print("Welcome back, {}! Connecting you now.".format(username))
-    os.system("sshpass -p {} ssh {}@{}".format(user.privpass, user.host, shlex.quote(user.netid)))
+    os.system("sshpass -p {} ssh {}@{}".format(user.privpass, user.host, user.netid))
 
 
 if __name__ == '__main__':
