@@ -1,0 +1,5 @@
+ldap3==2.2.4
+passlib==1.7.1
+peewee==2.10.1
+pyasn1==0.2.3
+python3-ldap==0.9.8.4
