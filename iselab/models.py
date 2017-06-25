@@ -4,7 +4,7 @@ import random
 from passlib.hash import sha512_crypt
 from peewee import Model, OperationalError, CharField, DateTimeField, BooleanField
 
-from settings import db
+from iselab.settings import db
 
 
 def db_init():
