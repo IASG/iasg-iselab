@@ -17,3 +17,14 @@ INFO:root:Username kokelley didn't exist, creating new user.
 INFO:root:Created account kokelley
 INFO:root:Username kokelley didn't exist, creating new user.
 INFO:root:Created account kokelley
+INFO:root:Username kokelley didn't exist, creating new user.
+INFO:root:Created account kokelley
+INFO:root:User kokelley exists
+INFO:root:Username kokelley didn't exist, creating new user.
+INFO:root:Created account kokelley
+INFO:root:User kokelley exists
+INFO:root:Username kokel didn't exist, creating new user.
+WARNING:root:NetID kokel response was: None
+INFO:root:Created account kokelley
+ERROR:root:Error provisioning kokelley: [Errno 2] No such file or directory: '/home/iasg/.ssh/id_rsa'
+INFO:root:Provisioned kokelley on kali2.iasg.net

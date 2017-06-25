@@ -24,17 +24,17 @@ TERMS = "TERMS AND CONDITIONS: While ISELab is a safe environment for hacking, y
 
 
 def provision(user: User):
-    with paramiko.sshClient() as ssh:
+    with paramiko.SSHClient() as ssh:
         try:
             key = paramiko.RSAKey.from_private_key_file(PRIVKEY)
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ssh.connect(user.host, username='provisioner', pkey=key)
-            ssh.exec_command("useradd {}".format(shlex.quote(user.username)))
-            ssh.exec_command("echo '{}':'{}' | chpasswd ".format(shlex.quote(user.username), user.privpass))
+            ssh.exec_command("useradd {}".format(shlex.quote(user.netid)))
+            ssh.exec_command("echo '{}':'{}' | chpasswd ".format(shlex.quote(user.netid), user.privpass))
         except Exception as e:
-            logging.error("Error provisioning {}: {}".format(user.username, e))
+            logging.error("Error provisioning {}: {}".format(user.netid, e))
             print("Warning!!! We couldn't fully set up your account. Get help in #iselab on https://iasg.slack.com.")
-        logging.info("Provisioned {} on {}".format(user.username, user.host))
+        logging.info("Provisioned {} on {}".format(user.netid, user.host))
 
 
 def validate_uid(username: str) -> str:
