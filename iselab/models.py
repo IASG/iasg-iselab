@@ -2,9 +2,9 @@ import datetime
 import random
 
 from passlib.hash import sha512_crypt
-from peewee import SqliteDatabase, Model, OperationalError, CharField, DateTimeField, BooleanField
+from peewee import Model, OperationalError, CharField, DateTimeField, BooleanField
 
-db = SqliteDatabase('iasg.db')
+from settings import db
 
 
 def db_init():
@@ -27,7 +27,7 @@ def tmppass() -> str:
     password = ""
     while not len(password) == 35:
         password += random.choice(chars)
-    return print("Password: %s" % password)
+    return password
 
 
 class User(BaseModel):

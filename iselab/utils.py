@@ -56,6 +56,7 @@ def check_netid(username: str) -> str:
 
 def create_user(username: str) -> User:
     print("It looks like it's your first time using IASG ISELab!")
+    print()
     name = check_netid(username)
     if not name:
         return None
