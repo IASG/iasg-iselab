@@ -1,16 +1,15 @@
 import getpass
 import logging
 import random
-
 import re
 import shlex
 
-import paramiko as paramiko
+import paramiko
 from ldap3 import Server, Connection
 from passlib.hash import sha512_crypt
 
-from models import User
-from settings import LDAP_SERVER, QUERY_STRING, PRIVKEY
+from iselab.models import User
+from iselab.settings import LDAP_SERVER, QUERY_STRING, PRIVKEY
 
 TERMS = "TERMS AND CONDITIONS: While ISELab is a safe environment for hacking, your activities and usage must remain " \
         "in compliance with all applicable local, state, and federal laws, as well as university policy. Notably, " \
