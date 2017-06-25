@@ -58,7 +58,8 @@ def main():
             print("Sorry, you're locked out. Please request help in the #iselab channel on https://iasg.slack.com.")
             raise SystemExit
     user.last_login = datetime.datetime.now()
-    os.system("sshpass -p {} ssh {}@{}", user.privpass, user.host, shlex.quote(user.username))
+    print("Welcome back, {}! Connecting you now.".format(username))
+    os.system("sshpass -p {} ssh {}@{}", user.privpass, user.host, shlex.quote(user.netid))
 
 
 if __name__ == '__main__':
