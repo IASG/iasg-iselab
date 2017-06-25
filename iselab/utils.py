@@ -9,7 +9,7 @@ from ldap3 import Server, Connection
 from passlib.hash import sha512_crypt
 
 from iselab.models import User
-from iselab.settings import LDAP_SERVER, QUERY_STRING, PRIVKEY
+from iselab.settings import LDAP_SERVER, QUERY_STRING, PRIVKEY, KALI_HOSTS
 
 TERMS = "TERMS AND CONDITIONS: While ISELab is a safe environment for hacking, your activities and usage must remain " \
         "in compliance with all applicable local, state, and federal laws, as well as university policy. Notably, " \
@@ -34,7 +34,8 @@ def provision(user: User):
         except Exception as e:
             logging.error("Error provisioning {}: {}".format(user.netid, e))
             print("Warning!!! We couldn't fully set up your account. Get help in #iselab on https://iasg.slack.com.")
-        logging.info("Provisioned {} on {}".format(user.netid, user.host))
+        else:
+            logging.info("Provisioned {} on {}".format(user.netid, user.host))
 
 
 def validate_uid(username: str) -> str:
@@ -74,12 +75,13 @@ def create_user(username: str) -> User:
         if password == confirm_password:
             try:
                 user = User.create(netid=username, password=sha512_crypt.hash(password),
-                            host='kali{}.iasg.net'.format(random.randint(1, 4)))
+                            host='kali{}.iasg.net'.format(random.randint(1, KALI_HOSTS)))
             except Exception as e:
                 logging.error("Error creating account {}: {}".format(username, e))
                 print("Error! Couldn't create your account. Please request help in #iselab on https://iasg.slack.com.")
                 raise SystemExit
             logging.info("Created account {}".format(username))
+            print("Setting up your account. Please wait...")
             provision(user)
             return user
         else:
