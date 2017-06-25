@@ -33,6 +33,7 @@ def provision(user: User):
             ssh.exec_command("echo '{}':'{}' | chpasswd ".format(shlex.quote(user.username), user.privpass))
         except Exception as e:
             logging.error("Error provisioning {}: {}".format(user.username, e))
+            print("Warning!!! We couldn't fully set up your account. Get help in #iselab on https://iasg.slack.com.")
         logging.info("Provisioned {} on {}".format(user.username, user.host))
 
 
@@ -72,13 +73,14 @@ def create_user(username: str) -> User:
         confirm_password = getpass.getpass("Confirm Password: ")
         if password == confirm_password:
             try:
-                User.create(netid=username, password=sha512_crypt.hash(password),
+                user = User.create(netid=username, password=sha512_crypt.hash(password),
                             host='kali{}.iasg.net'.format(random.randint(1, 4)))
             except Exception as e:
                 logging.error("Error creating account {}: {}".format(username, e))
                 print("Error! Couldn't create your account. Please request help in #iselab on https://iasg.slack.com.")
                 raise SystemExit
             logging.info("Created account {}".format(username))
-            return User
+            provision(user)
+            return user
         else:
             print("Passwords didn't match! Try again.")
