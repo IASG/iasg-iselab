@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-import datetime
 import getpass
 import logging
 import os
 
+import datetime
 from peewee import DoesNotExist
 
 from iselab.models import User, db_init
-from iselab.utils import create_user, provision
+from iselab.utils import create_user
 
 WELCOME_MESSAGE = """### Welcome to the IASG ISELab!!! ###
 For assistance, join the #iselab channel on https://iasg.slack.com.
@@ -15,9 +15,16 @@ For assistance, join the #iselab channel on https://iasg.slack.com.
 Enter your ISU netID to get started.
 """
 
+logger = logging.getLogger('iasg')
+logger.setLevel(logging.INFO)
+fh = logging.FileHandler('iasg.log')
+fh.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
 
 def main():
-    logging.basicConfig(filename='iasg.log', level=logging.INFO)
     db_init()
     print(WELCOME_MESSAGE)
     username = input("Username: ")
@@ -25,12 +32,12 @@ def main():
     try:
         user = User.get(netid=username)
     except DoesNotExist:
-        logging.info("Username {} didn't exist, creating new user.".format(username))
+        logger.info("Username {} didn't exist, creating new user.".format(username))
         attempts = 0
         while not user:
             if attempts == 3:
                 print("Sorry.")
-                logging.warning("Disconnecting {} after 3 failed attempts.".format(username))
+                logger.warning("Disconnecting {} after 3 failed attempts.".format(username))
                 raise SystemExit
             user = create_user(username)
             if user:
@@ -40,9 +47,9 @@ def main():
                 print("Username didn't work, try again?")
                 username = input("Username: ")
                 attempts += 1
-    logging.info("User {} exists".format(username))
+    logger.info("User {} exists".format(username))
     if user.locked:
-        logging.info("Locked account {} tried to login".format(username))
+        logger.info("Locked account {} tried to login".format(username))
         print("Your account is locked! Please request help in the #iselab channel on https://iasg.slack.com.")
         raise SystemExit
     attempts = 0
@@ -53,7 +60,7 @@ def main():
         attempts += 1
         if attempts == 3:
             user.locked = True
-            logging.warning("Locked account {} after 3 failed attempts".format(username))
+            logger.warning("Locked account {} after 3 failed attempts".format(username))
             print("Sorry, you're locked out. Please request help in the #iselab channel on https://iasg.slack.com.")
             raise SystemExit
     user.last_login = datetime.datetime.now()

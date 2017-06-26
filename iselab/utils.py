@@ -11,6 +11,8 @@ from passlib.hash import sha512_crypt
 from iselab.models import User
 from iselab.settings import LDAP_SERVER, QUERY_STRING, PRIVKEY, KALI_HOSTS
 
+logger = logging.getLogger('iasg')
+
 TERMS = "TERMS AND CONDITIONS: While ISELab is a safe environment for hacking, your activities and usage must remain " \
         "in compliance with all applicable local, state, and federal laws, as well as university policy. Notably, " \
         "you may not use " \
@@ -34,10 +36,10 @@ def provision(user: User):
             ssh.exec_command("sudo mkdir /home/{}".format(shlex.quote(user.netid)))
             ssh.exec_command("sudo chown -R {0}:{0} /home/{0}".format(shlex.quote(user.netid)))
         except Exception as e:
-            logging.error("Error provisioning {}: {}".format(user.netid, e))
+            logger.error("Error provisioning {}: {}".format(user.netid, e))
             print("Warning!!! We couldn't fully set up your account. Get help in #iselab on https://iasg.slack.com.")
         else:
-            logging.info("Provisioned {} on {}".format(user.netid, user.host))
+            logger.info("Provisioned {} on {}".format(user.netid, user.host))
 
 
 def validate_uid(username: str) -> str:
@@ -52,7 +54,7 @@ def check_netid(username: str) -> str:
     try:
         user = conn.entries[0].cn[0]
     except TypeError:
-        logging.warning("NetID {} response was: {}".format(username, conn.entries))
+        logger.warning("NetID {} response was: {}".format(username, conn.entries))
     finally:
         conn.unbind()
     return user
@@ -79,10 +81,10 @@ def create_user(username: str) -> User:
                 user = User.create(netid=username, password=sha512_crypt.hash(password),
                             host='kali{}.iasg.net'.format(random.randint(1, KALI_HOSTS)))
             except Exception as e:
-                logging.error("Error creating account {}: {}".format(username, e))
+                logger.error("Error creating account {}: {}".format(username, e))
                 print("Error! Couldn't create your account. Please request help in #iselab on https://iasg.slack.com.")
                 raise SystemExit
-            logging.info("Created account {}".format(username))
+            logger.info("Created account {}".format(username))
             print("Setting up your account. Please wait...")
             provision(user)
             return user
