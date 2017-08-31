@@ -5,6 +5,9 @@ LDAP_SERVER = 'ldap://ldap.iastate.edu'
 QUERY_STRING = 'ou=people,dc=iastate,dc=edu'
 PRIVKEY = '/home/iasg/.ssh/id_rsa'
 db = SqliteDatabase('iasg.db')
+EMAIL_FROM = 'iasg-cabinet@iastate.edu'
+SMTP_SERVER = None
+
 try:
     from iselab.settings_local import *
 except ImportError:

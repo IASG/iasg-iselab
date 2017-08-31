@@ -32,12 +32,10 @@ def tmppass() -> str:
 
 class User(BaseModel):
     netid = CharField(unique=True)
-    password = CharField()
+    password = CharField(null=True)
     created_date = DateTimeField(default=datetime.datetime.now)
     last_login = DateTimeField(default=None, null=True)
-    host = CharField(default="kali1.iasg.net")
     locked = BooleanField(default=False)
-    privpass = CharField(default=tmppass)
 
     def verify_password(self, password: str) -> bool:
         return sha512_crypt.verify(password, self.password)
