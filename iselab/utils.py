@@ -27,7 +27,7 @@ TERMS = "TERMS AND CONDITIONS: While ISELab is a safe environment for hacking, y
 def provision(username: str, password: str):
     try:
         run(["sudo", "useradd", username, "-s", "/bin/false", "-G", "iasg-users"])
-        run(["echo", "{}:{}".format(username, password), "|", "sudo", "chpasswd"])
+        run(["echo", "'{}:{}'".format(username, password), "|", "sudo", "chpasswd"])
     except Exception as e:
         logger.error("Error provisioning {}: {}".format(username, e))
         print("Warning!!! We couldn't fully set up your account. Get help in #iselab on https://iasg.slack.com.")
@@ -102,4 +102,5 @@ def create_user(username: str) -> User:
                 raise SystemExit
             return user
         else:
+            print()
             print("Passwords didn't match! Try again.")
