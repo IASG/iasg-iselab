@@ -3,9 +3,9 @@ import hashlib
 import logging
 import os
 import re
+import shlex
 import smtplib
 from email.mime.text import MIMEText
-from shlex import shlex
 from subprocess import run
 
 from iselab import settings
@@ -28,7 +28,7 @@ TERMS = "TERMS AND CONDITIONS: While ISELab is a safe environment for hacking, y
 def provision(username: str, password: str):
     try:
         run(["sudo", "useradd", username, "-s", "/bin/false", "-G", "iasg-users"])
-        os.system("echo {}:{} | sudo chpasswd".format(shlex.escape(username), shlex.escape(password)))
+        os.system("echo {}:{} | sudo chpasswd".format(shlex.quote(username), shlex.quote(password)))
     except Exception as e:
         logger.error("Error provisioning {}: {}".format(username, e))
         print("Warning!!! We couldn't fully set up your account. Get help in #iselab on https://iasg.slack.com.")
