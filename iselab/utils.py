@@ -3,9 +3,9 @@ import hashlib
 import logging
 import os
 import re
-import shlex
 import smtplib
 from email.mime.text import MIMEText
+from shlex import shlex
 from subprocess import run
 
 from iselab import settings
