@@ -56,7 +56,8 @@ def send_verification_code(username):
         msg['From'] = settings.EMAIL_FROM
         mail = smtplib.SMTP(settings.SMTP_SERVER, settings.SMTP_PORT)
         mail.starttls()
-        mail.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
+        if settings.SMTP_USERNAME and settings.SMTP_PASSWORD:
+            mail.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
         mail.sendmail(settings.EMAIL_FROM, settings.EMAIL_TO, msg.as_string())
         mail.quit()
     else:
