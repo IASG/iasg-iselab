@@ -49,16 +49,17 @@ def send_verification_code(username):
     verify = random_string(6)
     logger.info("Sending verification to " + username)
     data = "Hello {},\nWelcome to the IASG ISELab! Your verification code is: {}".format(username, verify)
+    mailto = username + "@iastate.edu"
     if settings.SMTP_SERVER:
         msg = MIMEText(data)
         msg['Subject'] = "IASG ISELab Verification Code"
-        msg['To'] = username + "@iastate.edu"
+        msg['To'] = mailto
         msg['From'] = settings.EMAIL_FROM
         mail = smtplib.SMTP(settings.SMTP_SERVER, settings.SMTP_PORT)
         mail.starttls()
         if settings.SMTP_USERNAME and settings.SMTP_PASSWORD:
             mail.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
-        mail.sendmail(settings.EMAIL_FROM, settings.EMAIL_TO, msg.as_string())
+        mail.sendmail(settings.EMAIL_FROM, mailto, msg.as_string())
         mail.quit()
     else:
         print("-------------------EMAIL-------------------")
