@@ -7,6 +7,9 @@ PRIVKEY = '/home/iasg/.ssh/id_rsa'
 db = SqliteDatabase('iasg.db')
 EMAIL_FROM = 'iasg-cabinet@iastate.edu'
 SMTP_SERVER = None
+SMTP_PORT = 25
+SMTP_USERNAME = ''
+SMTP_PASSWORD = ''
 
 try:
     from iselab.settings_local import *
