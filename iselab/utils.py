@@ -53,18 +53,20 @@ def send_verification_code(username):
     verify = random_string(6)
     logger.info("Sending verification to " + username)
     data = "Hello {},\nWelcome to the IASG ISELab! Your verification code is: {}\n\n".format(username, verify)
-    data += "Also, in case you choose to use the VPN, a VPN configuration file is attached."
+    if VPN_CONFIG:
+        data += "Also, in case you choose to use the VPN, a VPN configuration file is attached."
     mailto = username + "@iastate.edu"
     if settings.SMTP_SERVER:
         msg = MIMEMultipart()
         msg.attach(MIMEText(data))
-        with open(VPN_CONFIG, 'rb') as f:
-            part = MIMEApplication(
-                f.read(),
-                Name=basename(f)
-            )
-        part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(f))
-        msg.attach(part)
+        if VPN_CONFIG:
+            with open(VPN_CONFIG, 'rb') as f:
+                part = MIMEApplication(
+                    f.read(),
+                    Name=basename(f)
+                )
+            part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(f))
+            msg.attach(part)
         msg['Subject'] = "IASG ISELab Verification Code"
         msg['To'] = mailto
         msg['From'] = settings.EMAIL_FROM
@@ -77,8 +79,9 @@ def send_verification_code(username):
     else:
         print("-------------------EMAIL-------------------")
         print(data)
-        with open(VPN_CONFIG, 'rb') as f:
-            print(f.read())
+        if VPN_CONFIG:
+            with open(VPN_CONFIG, 'rb') as f:
+                print(f.read())
         print("--------------------END--------------------")
     return verify
 

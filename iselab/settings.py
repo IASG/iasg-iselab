@@ -10,7 +10,7 @@ SMTP_SERVER = None
 SMTP_PORT = 25
 SMTP_USERNAME = ''
 SMTP_PASSWORD = ''
-VPN_CONFIG = 'iasg.ovpn'
+VPN_CONFIG = None
 
 try:
     from iselab.settings_local import *
