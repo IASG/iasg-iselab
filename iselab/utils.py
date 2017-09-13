@@ -63,9 +63,9 @@ def send_verification_code(username):
             with open(VPN_CONFIG, 'rb') as f:
                 part = MIMEApplication(
                     f.read(),
-                    Name=basename(f)
+                    Name=basename(VPN_CONFIG)
                 )
-            part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(f))
+            part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(VPN_CONFIG))
             msg.attach(part)
         msg['Subject'] = "IASG ISELab Verification Code"
         msg['To'] = mailto
