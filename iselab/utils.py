@@ -52,7 +52,7 @@ def random_string(length: int = 128) -> str:
 def send_verification_code(username):
     verify = random_string(6)
     logger.info("Sending verification to " + username)
-    data = "Hello {},\nWelcome to the IASG ISELab! Your verification code is: {}\n\n".format(username, verify)
+    data = "Hello {},\n\nWelcome to the IASG ISELab! Your verification code is: {}\n\n".format(username, verify)
     if VPN_CONFIG:
         data += "Also, in case you choose to use the VPN, a VPN configuration file is attached."
     mailto = username + "@iastate.edu"
@@ -106,7 +106,7 @@ def create_user(username: str) -> User:
         print("Bye.")
         raise SystemExit
     while True:
-        print("Now, create a password for ISELab. This should not be the same as your ISU password!")
+        print("Now, create a password for ISELab. This *should not* be the same as your ISU password!")
         password = getpass.getpass()
         confirm_password = getpass.getpass("Confirm Password: ")
         if password == confirm_password:
