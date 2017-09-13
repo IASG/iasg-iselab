@@ -5,11 +5,15 @@ import os
 import re
 import shlex
 import smtplib
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from os.path import basename
 from subprocess import run
 
 from iselab import settings
 from iselab.models import User
+from iselab.settings import VPN_CONFIG
 
 logger = logging.getLogger('iasg')
 
@@ -48,10 +52,19 @@ def random_string(length: int = 128) -> str:
 def send_verification_code(username):
     verify = random_string(6)
     logger.info("Sending verification to " + username)
-    data = "Hello {},\nWelcome to the IASG ISELab! Your verification code is: {}".format(username, verify)
+    data = "Hello {},\nWelcome to the IASG ISELab! Your verification code is: {}\n\n".format(username, verify)
+    data += "Also, in case you choose to use the VPN, a VPN configuration file is attached."
     mailto = username + "@iastate.edu"
     if settings.SMTP_SERVER:
-        msg = MIMEText(data)
+        msg = MIMEMultipart()
+        msg.attach(MIMEText(data))
+        with open(VPN_CONFIG, 'rb') as f:
+            part = MIMEApplication(
+                f.read(),
+                Name=basename(f)
+            )
+        part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(f))
+        msg.attach(part)
         msg['Subject'] = "IASG ISELab Verification Code"
         msg['To'] = mailto
         msg['From'] = settings.EMAIL_FROM
@@ -64,6 +77,8 @@ def send_verification_code(username):
     else:
         print("-------------------EMAIL-------------------")
         print(data)
+        with open(VPN_CONFIG, 'rb') as f:
+            print(f.read())
         print("--------------------END--------------------")
     return verify
 
