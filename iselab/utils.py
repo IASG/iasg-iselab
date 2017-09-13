@@ -31,7 +31,7 @@ TERMS = "TERMS AND CONDITIONS: While ISELab is a safe environment for hacking, y
 
 def provision(username: str, password: str):
     try:
-        run(["sudo", "useradd", username, "-G", "iasg-users"])
+        run(["sudo", "useradd", username, "-G", "iasg-users"], check=True)
         os.system("echo {}:{} | sudo chpasswd".format(shlex.quote(username), shlex.quote(password)))
     except Exception as e:
         logger.error("Error provisioning {}: {}".format(username, e))
