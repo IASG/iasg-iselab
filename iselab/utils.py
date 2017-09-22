@@ -17,16 +17,21 @@ from iselab.settings import VPN_CONFIG
 
 logger = logging.getLogger('iasg')
 
-TERMS = "TERMS AND CONDITIONS: While ISELab is a safe environment for hacking, your activities and usage must remain " \
-        "in compliance with all applicable local, state, and federal laws, as well as Iowa State university policy. " \
-        "Notably, you may not use " \
-        "this system to attack ISU infrastructure or others outside the environment. IASG will not be held liable for " \
-        "any damages, " \
-        "whether physical, virtual, imaginary, stress-related, or otherwise, that may arise from the use of these " \
-        "systems. " \
-        "Usage of this system may be logged and monitored for abuse. With all that in mind, it is most important that " \
-        "you have fun!\n\n" \
-        "By typing 'yes' below, you affirm that you have read and understood the terms and conditions."
+TERMS = 'TERMS AND CONDITIONS: While ISELab is a safe environment for learning offensive and defensive information ' \
+        'security skills, your activities and usage must remain ' \
+        'in full compliance with all local, state, and federal laws, as well as Iowa State university policy. ' \
+        'Notably, usage of this system is limited to educational purposes only, and you may not use ' \
+        'this system to attack users or systems that are outside the environment. Under no circumstances will IASG be ' \
+        '' \
+        'held liable for any damages, ' \
+        'whether physical, virtual, imaginary, anticipated, stress-related, or otherwise that may arise from the use ' \
+        'of these ' \
+        'systems. IASG is not responsible for any content that is introduced or caused to be introduced into the ' \
+        'environment.' \
+        'Usage of this system may be logged and monitored for abuse. With all that in mind, it is most important that ' \
+        '' \
+        'you have fun!\n\n' \
+        'By typing \'yes\' below, you affirm that you have read and understood the terms and conditions.'
 
 
 def provision(username: str, password: str):
