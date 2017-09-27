@@ -1,52 +1,56 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>IASG ISELab</title>
-		<link href="hacker.css" rel="stylesheet">
+        <title>IASG ISELab</title>
+        <link href="hacker.css" rel="stylesheet">
 
-		<style>
+        <style>
 .tall-row {
-	margin-top: 40px;
+    margin-top: 40px;
 }
     .modal {
-	    position: relative;
-	    top: auto;
-	    right: auto;
-	    left: auto;
-	    bottom: auto;
-	    z-index: 1;
-	    display: block;
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        bottom: auto;
+        z-index: 1;
+        display: block;
     }
     iframe {
-	    position:fixed; top:3%; left:0px; bottom:0px; right:0px; width:100%; height:97%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;
+        position:fixed; top:3%; left:0px; bottom:0px; right:0px; width:100%; height:97%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;
     }
     .container {
-	    padding-top:8px;
+        padding-top:8px;
     }
-		</style>
-	</head>
+        </style>
+    </head>
 
-	<body>
-
-
-				<a href="/" class="btn btn-primary btn-sm">Exit</a>
-				<a href="http://iasg.iac.iastate.edu">IASG</a> ISELab Webshell powered by <a href="https://github.com/krishnasrinivas/wetty">wetty</a>. <span class="text-warning" id="secret"></span>
-			<iframe src="" id="iframe">Your browser can't handle this???</iframe>
+    <body>
 
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <a href="/" class="btn btn-primary btn-sm">Exit</a>
+        <a href="http://iasg.iac.iastate.edu">IASG</a> ISELab Webshell powered by <a href="https://github.com/krishnasrinivas/wetty">wetty</a>. <span class="text-warning" id="secret"></span>
+        <iframe src="" id="iframe">Your browser can't handle this???</iframe>
 
-		<script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+        <script>
 $('#iframe').attr('src', '/wetty/ssh/' + window.location.hash.substr(1));
 if (window.location.hash.substr(1) == 'iasg') {
-	$('#secret').html("Password for `iasg` user is 'infasgroup'");
+    $('#secret').html("Password for `iasg` user is 'infasgroup'");
 }
-		</script>
+if (window.location.hash.substr(1).includes("root")) {
+    // Bye :)
+    document.location = 'https://media.giphy.com/media/Ci3nCVx952lfG/giphy.gif';
+}
+        </script>
 
-	</body>
+    </body>
 </html>
