@@ -11,6 +11,9 @@ SMTP_PORT = 25
 SMTP_USERNAME = ''
 SMTP_PASSWORD = ''
 VPN_CONFIG = None
+DEBUG = False
+SECRET_KEY = None
+WETTY = 'http://127.0.0.1:3000'
 
 try:
     from iselab.settings_local import *

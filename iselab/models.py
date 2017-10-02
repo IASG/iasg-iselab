@@ -42,3 +42,18 @@ class User(BaseModel):
 
     def set_password(self, password: str) -> None:
         self.password = sha512_crypt.hash(password)
+
+    def is_active(self) -> bool:
+        return True
+
+    def get_id(self) -> str:
+        return self.netid
+
+    def is_authenticated(self) -> bool:
+        return self.authenticated
+
+    def is_anonymous(self) -> bool:
+        return False
+
+    def __repr__(self):
+        return self.netid

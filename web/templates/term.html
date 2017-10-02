@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>IASG ISELab</title>
-        <link href="hacker.css" rel="stylesheet">
+        <link href="/static/hacker.css" rel="stylesheet">
 
         <style>
 .tall-row {
@@ -34,19 +34,16 @@
 
 
         <a href="/" class="btn btn-primary btn-sm">Exit</a>
-        <a href="http://iasg.iac.iastate.edu">IASG</a> ISELab Webshell powered by <a href="https://github.com/krishnasrinivas/wetty">wetty</a>. <span class="text-warning" id="secret"></span>
-        <iframe src="" id="iframe">Your browser can't handle this???</iframe>
+        <a href="http://iasg.iac.iastate.edu">IASG</a> ISELab Webshell powered by <a href="https://github.com/krishnasrinivas/wetty">wetty</a>. {% if register %}<span class="text-warning" id="secret">Password for `iasg` user is 'infasgroup'</span>{% endif %}
+        <iframe src="{{ wetty }}/wetty/ssh/{% if register %}iasg{% else %}{{ current_user }}{% endif %}" id="iframe">Your browser can't handle this???</iframe>
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
         <script>
-$('#iframe').attr('src', '/wetty/ssh/' + window.location.hash.substr(1));
-if (window.location.hash.substr(1) == 'iasg') {
-    $('#secret').html("Password for `iasg` user is 'infasgroup'");
-}
-if (window.location.hash.substr(1).includes("root")) {
+
+if (window.location.includes("root")) {
     // Bye :)
     document.location = 'https://media.giphy.com/media/Ci3nCVx952lfG/giphy.gif';
 }
