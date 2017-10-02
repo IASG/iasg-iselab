@@ -1,9 +1,13 @@
-from flask import Flask, redirect, url_for, request, flash, render_template, make_response, abort
+import re
+from urllib.parse import unquote
+
+import requests
+from flask import Flask, redirect, url_for, request, flash, render_template, make_response
 from flask_login import LoginManager, login_required, logout_user, login_user, current_user
 from peewee import DoesNotExist
 
 from iselab.models import User
-from iselab.settings import SECRET_KEY, WETTY
+from iselab.settings import SECRET_KEY, WETTY, PROXIES
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -33,6 +37,38 @@ def wetty():
     user = current_user.netid if current_user.is_authenticated else 'iasg'
     response.headers['X-Accel-Redirect'] = '/wetty/ssh/' + user
     return response
+
+
+@app.route("/browser")
+@login_required
+def browser():
+    return render_template('browser.html')
+
+
+def proxify(html, path):
+    print(re.sub(r"(src=|href=)(\"|')(?!http)(?!\/\/)", r'\1\2{}'.format(path),
+                 html))
+    return re.sub(r"(src=|href=)(\"|')(?!http)(?!\/\/)", r'\1\2{}'.format(path),
+                  html)
+
+
+@app.route("/browse/<path:path>", methods=['GET', 'POST'])
+@login_required
+def browse(path):
+    path = unquote(path)
+    if not path.startswith('http'):
+        path = 'http://' + path
+    if request.method == 'GET':
+        r = requests.get(path,
+                         proxies=PROXIES,
+                         verify=False)
+        return proxify(r.text, path)
+    if request.method == 'POST':
+        r = requests.post(path,
+                          data=request.form.to_dict(flat=True),
+                          proxies=PROXIES,
+                          verify=False)
+        return proxify(r.text, path)
 
 
 @app.route("/register")

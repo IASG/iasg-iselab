@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>IASG ISELab</title>
+    <link href="/static/hacker.css" rel="stylesheet">
+
+    <style>
+        .tall-row {
+            margin-top: 40px;
+        }
+        .modal {
+            position: relative;
+            top: auto;
+            right: auto;
+            left: auto;
+            bottom: auto;
+            z-index: 1;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">IASG ISELab</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu<span class="caret"></span> </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/webshell">Web Shell</a></li>
+                        <li><a href="/browser">Web Browser</a></li>
+                        {#<li><a href="#">Remote Desktop</a></li>#}
+                    </ul>
+                </li>
+                <li>
+                    <a href="/logout">Logout {{ current_user }}</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block body %}
+
+{% endblock %}
+
+{% block footer %}
+<div class="row tall-row">
+    <div class="col-md-12">
+        <p><a href="http://iasg.iac.iastate.edu">IASG</a> &copy; 2017 <a href="http://iasg.iac.iastate.edu">http://iasg.iac.iastate.edu</a></p>
+    </div>
+</div>
+{% endblock %}
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+{% block script %}
+{% endblock %}
+
+</body>
+</html>
