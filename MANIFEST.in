@@ -1,0 +1,2 @@
+recursive-include iselab/web/templates *
+recursive-include iselab/web/static *

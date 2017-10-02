@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='iselab',
-    version='0.2',
+    version='0.2.1',
     packages=find_packages(),
     url='http://iasg.iac.iastate.edu',
     license='MIT',
@@ -13,5 +13,7 @@ setup(
     author_email='kokelley@iastate.edu',
     description='',
     scripts=['iasg-login', 'iasg-web'],
+    include_package_data=True,
+    zip_safe=False,
     install_requires=required
 )
