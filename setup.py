@@ -12,6 +12,6 @@ setup(
     author="Keane O'Kelley",
     author_email='kokelley@iastate.edu',
     description='',
-    scripts=['iasg-login'],
+    scripts=['iasg-login', 'iasg-web'],
     install_requires=required
 )

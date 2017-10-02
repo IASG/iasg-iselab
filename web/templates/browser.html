@@ -16,23 +16,25 @@
 <div class="container">
     <div class="input-group">
         <span class="input-group-btn">
-            <a href="/" class="btn btn-primary btn-sm">Home</a>
-            <a href="/" class="btn btn-primary btn-sm">Refresh</a>
-            <a href="/" class="btn btn-primary btn-sm">Prev</a>
-            <a href="/" class="btn btn-primary btn-sm">Next</a>
+            <button id="refresh" class="btn btn-primary">Refresh</button>
+            <button id="back" class="btn btn-primary">Back</button>
+            <button id="next" class="btn btn-primary">Next</button>
         </span>
         <input type="text" class="form-control" id="url" placeholder="Type a URL">
         <span class="input-group-btn">
                 <button class="btn btn-primary" id="go">Go!</button>
         </span>
     </div>
-
-    <iframe src="/browse/" id="iframe">Your browser can't handle this???</iframe>
+    <span class="text-danger">Do not enter any sensitive information.</span>
+    <iframe src="" id="iframe">Your browser can't handle this???</iframe>
 </div>
 {% endblock %}
 
 {% block script %}
 <script>
+    var back = [];
+    var next = [];
+    var current = "";
     $(document).keypress(function(e){
         if (e.which == 13){
             $("#go").click();
@@ -40,7 +42,29 @@
     });
 
     $('#go').click(function() {
+        back.push(current);
         $('#iframe').attr('src', '/browse/' + $('#url').val())
+        current = $('#url').val();
+    });
+
+    $('#back').click(function() {
+        var url = back.pop();
+        if (url != null) {
+            next.push(current);
+            $('#url').val(url);
+            $('#iframe').attr('src', '/browse/' + url);
+            current = url;
+        }
+    });
+
+    $('#next').click(function() {
+        var url = next.pop();
+        if (url != null) {
+            back.push(current);
+            $('#url').val(url);
+            $('#iframe').attr('src', '/browse/' + url);
+            current = url;
+        }
     });
 </script>
 {% endblock %}

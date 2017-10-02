@@ -46,27 +46,36 @@ def browser():
 
 
 def proxify(html, path):
-    print(re.sub(r"(src=|href=)(\"|')(?!http)(?!\/\/)", r'\1\2{}'.format(path),
-                 html))
-    return re.sub(r"(src=|href=)(\"|')(?!http)(?!\/\/)", r'\1\2{}'.format(path),
+    return re.sub(r"(src=|href=|content=|srcset=|url\()(\"|')(?!http)(?!mailto)(?!\/\/)", r'\1\2{}/'.format(path),
                   html)
+
+
+@app.route("/browse/")
+@login_required
+def empty_browse():
+    return '', 204
 
 
 @app.route("/browse/<path:path>", methods=['GET', 'POST'])
 @login_required
 def browse(path):
     path = unquote(path)
+    headers = {'User-Agent': request.headers['User-Agent']}
     if not path.startswith('http'):
         path = 'http://' + path
     if request.method == 'GET':
         r = requests.get(path,
                          proxies=PROXIES,
+                         headers=headers,
+                         cookies=request.cookies,
                          verify=False)
         return proxify(r.text, path)
     if request.method == 'POST':
         r = requests.post(path,
                           data=request.form.to_dict(flat=True),
                           proxies=PROXIES,
+                          headers=headers,
+                          cookies=request.cookies,
                           verify=False)
         return proxify(r.text, path)
 
