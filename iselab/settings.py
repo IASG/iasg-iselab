@@ -13,7 +13,7 @@ SMTP_PASSWORD = ''
 VPN_CONFIG = None
 DEBUG = False
 SECRET_KEY = None
-WETTY = 'http://127.0.0.1:3000'
+WETTY = ''
 
 try:
     from iselab.settings_local import *

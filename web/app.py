@@ -1,5 +1,5 @@
-from flask import Flask, redirect, url_for, request, flash, render_template
-from flask_login import LoginManager, login_required, logout_user, login_user
+from flask import Flask, redirect, url_for, request, flash, render_template, make_response, abort
+from flask_login import LoginManager, login_required, logout_user, login_user, current_user
 from peewee import DoesNotExist
 
 from iselab.models import User
@@ -25,6 +25,14 @@ def index():
 @login_required
 def webshell():
     return render_template('term.html', wetty=WETTY)
+
+
+@app.route("/shell")
+def wetty():
+    response = make_response()
+    user = current_user.netid if current_user.is_authenticated else 'iasg'
+    response.headers['X-Accel-Redirect'] = '/wetty/ssh/' + user
+    return response
 
 
 @app.route("/register")
