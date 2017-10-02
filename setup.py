@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open('requirements.txt') as f:
     required = f.read().splitlines()
@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 setup(
     name='iselab',
     version='0.2',
-    packages=['iselab'],
+    packages=find_packages(),
     url='http://iasg.iac.iastate.edu',
     license='MIT',
     author="Keane O'Kelley",
