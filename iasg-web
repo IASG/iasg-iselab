@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from iselab.models import db_init
 from iselab.settings import DEBUG
-from iselab.web import app
+from iselab.web.app import app
 
 db_init()
 app.run(debug=DEBUG)
