@@ -80,9 +80,7 @@ def browse(path):
                           headers=headers,
                           cookies=request.cookies,
                           verify=False)
-    print(path)
     response = make_response(proxify(r.text, path))
-    print(r.headers['Content-Type'])
     response.headers['Content-Type'] = r.headers['Content-Type']
     return response
 
