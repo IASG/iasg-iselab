@@ -7,7 +7,7 @@ from flask_login import LoginManager, login_required, logout_user, login_user, c
 from peewee import DoesNotExist
 
 from iselab.models import User
-from iselab.settings import SECRET_KEY, WETTY, PROXIES
+from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -28,15 +28,8 @@ def index():
 @app.route("/webshell")
 @login_required
 def webshell():
-    return render_template('term.html', wetty=WETTY)
-
-
-@app.route("/shell")
-def wetty():
-    response = make_response()
-    user = current_user.netid if current_user.is_authenticated else 'iasg'
-    response.headers['X-Accel-Redirect'] = '/wetty/ssh/' + user
-    return response
+    return render_template('term.html', wetty=WETTY,
+                           username=current_user.netid)
 
 
 @app.route("/browser")
@@ -45,9 +38,11 @@ def browser():
     return render_template('browser.html')
 
 
-def proxify(html, path):
-    return re.sub(r"(src=|href=|content=|srcset=|url\()(\"|')(?!http)(?!mailto)(?!\/\/)", r'\1\2{}/'.format(path),
+def proxify(html):
+    html = re.sub(r"(https?://)(.*)/", URL + r'/browse/\2', html)
+    html = re.sub(r"(src=|href=|content=|srcset=|url\()(\"|')(?!http)(?!mailto)(?!//)", r'\1\2{}/'.format(URL),
                   html)
+    return html
 
 
 @app.route("/browse/")
@@ -82,7 +77,7 @@ def browse(path):
 
 @app.route("/register")
 def register():
-    return render_template('term.html', wetty=WETTY, register=True)
+    return render_template('term.html', wetty=WETTY, username='iasg', register=True)
 
 
 @app.route("/logout")

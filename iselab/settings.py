@@ -15,6 +15,7 @@ DEBUG = False
 SECRET_KEY = None
 WETTY = ''
 PROXIES = {'http': 'http://199.100.16.100:3128'}
+URL = 'http://localhost/'
 
 try:
     from iselab.settings_local import *

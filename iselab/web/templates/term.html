@@ -35,7 +35,7 @@
 
         <a href="/" class="btn btn-primary btn-sm">Exit</a>
         <a href="http://iasg.iac.iastate.edu">IASG</a> ISELab Webshell powered by <a href="https://github.com/krishnasrinivas/wetty">wetty</a>. {% if register %}<span class="text-warning" id="secret">Password for `iasg` user is 'infasgroup'</span>{% endif %}
-        <iframe src="/shell" id="iframe">Your browser can't handle this???</iframe>
+        <iframe src="/wetty/ssh/{{ username }}" id="iframe">Your browser can't handle this???</iframe>
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
