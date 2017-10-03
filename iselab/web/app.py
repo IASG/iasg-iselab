@@ -40,10 +40,9 @@ def browser():
 
 def proxify(html, path):
     html = re.sub(r"(https?://)(.*)/", URL + r'/browse/\2', html)
-    html = re.sub(r"(action=|src=|href=|content=|srcset=)(\"|')(?!http)(?!mailto)(?!//)",
-                  r'\1\2{}/browse/{}/'.format(URL, path),
+    html = re.sub(r"(action=|src=|href=|content=|srcset=|url\()(\"|')(?!http)(?!mailto)(?!//)",
+                  r'\1\2{}/browse/{}/'.format(URL, '/'.join(path.split('/')[:3])),
                   html)
-    html = re.sub(r"url\((\"|')?(?!http)", r'url(\1{}/browse/{}'.format(URL, '/'.join(path.split('/')[:3])), html)
     return html
 
 
