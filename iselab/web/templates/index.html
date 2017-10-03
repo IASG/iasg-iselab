@@ -29,6 +29,10 @@
         </form>
         <br>
         {% if current_user.is_authenticated %}
+            <p>There are multiple ways to access our environment:</p>
+            <br>
+            <p>Run `ssh {{ current_user.netid }}@{{ host }}` from a terminal to access via SSH.</p>
+            <br>
             <p>The web shell allows you to access a Kali Linux machine in ISELab from your web browser.</p>
             <a class="btn btn-primary" href="/webshell">Web Shell</a>
             <br><br>
@@ -51,14 +55,10 @@
         var netid = false;
         $('#netid-input').hide();
         $('#login').click(function() {
-            if (!netid) {
-                $('#register').hide();
-                $('#login').hide();
-                $('#netid-input').show();
-                netid = true;
-            } else {
-                document.location = '/term#' + $('#netid').val();
-            }
+            $('#register').hide();
+            $('#login').hide();
+            $('#netid-input').show();
+            netid = true;
         });
         $(document).keypress(function(e){
             if (e.which == 13){

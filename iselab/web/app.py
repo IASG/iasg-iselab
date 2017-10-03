@@ -7,7 +7,7 @@ from flask_login import LoginManager, login_required, logout_user, login_user, c
 from peewee import DoesNotExist
 
 from iselab.models import User
-from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL, VPN_CONFIG
+from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL, VPN_CONFIG, HOST
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -22,7 +22,7 @@ def user_loader(user_id):
 
 @app.route("/")
 def index():
-    return render_template('index.html', vpn=VPN_CONFIG)
+    return render_template('index.html', vpn=VPN_CONFIG, host=HOST)
 
 
 @app.route("/webshell")

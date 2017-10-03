@@ -16,6 +16,7 @@ SECRET_KEY = None
 WETTY = ''
 PROXIES = {'http': 'http://199.100.16.100:3128'}
 URL = 'http://localhost/'
+HOST = ''
 
 try:
     from iselab.settings_local import *
