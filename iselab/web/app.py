@@ -2,12 +2,12 @@ import re
 from urllib.parse import unquote
 
 import requests
-from flask import Flask, redirect, url_for, request, flash, render_template, make_response
+from flask import Flask, redirect, url_for, request, flash, render_template, make_response, send_file
 from flask_login import LoginManager, login_required, logout_user, login_user, current_user
 from peewee import DoesNotExist
 
 from iselab.models import User
-from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL
+from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL, VPN_CONFIG
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -22,7 +22,7 @@ def user_loader(user_id):
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', vpn=VPN_CONFIG)
 
 
 @app.route("/webshell")
@@ -38,16 +38,25 @@ def browser():
     return render_template('browser.html')
 
 
-def proxify(html):
+def proxify(html, path):
     html = re.sub(r"(https?://)(.*)/", URL + r'/browse/\2', html)
-    html = re.sub(r"(src=|href=|content=|srcset=|url\()(\"|')(?!http)(?!mailto)(?!//)", r'\1\2{}/'.format(URL),
+    html = re.sub(r"(action=|src=|href=|content=|srcset=)(\"|')(?!http)(?!mailto)(?!//)",
+                  r'\1\2{}/browse/{}/'.format(URL, path),
                   html)
+    html = re.sub(r"url\((\"|')?(?!http)", r'url(\1{}/browse/{}'.format(URL, '/'.join(path.split('/')[:3])), html)
     return html
 
 
 @app.route("/browse/")
 @login_required
 def empty_browse():
+    return '', 204
+
+
+@app.route("/vpn")
+def vpn():
+    if VPN_CONFIG:
+        return send_file(VPN_CONFIG, as_attachment=True)
     return '', 204
 
 
@@ -64,15 +73,18 @@ def browse(path):
                          headers=headers,
                          cookies=request.cookies,
                          verify=False)
-        return proxify(r.text)
-    if request.method == 'POST':
+    elif request.method == 'POST':
         r = requests.post(path,
                           data=request.form.to_dict(flat=True),
                           proxies=PROXIES,
                           headers=headers,
                           cookies=request.cookies,
                           verify=False)
-        return proxify(r.text)
+    print(path)
+    response = make_response(proxify(r.text, path))
+    print(r.headers['Content-Type'])
+    response.headers['Content-Type'] = r.headers['Content-Type']
+    return response
 
 
 @app.route("/register")
