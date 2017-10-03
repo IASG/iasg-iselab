@@ -64,7 +64,7 @@ def browse(path):
                          headers=headers,
                          cookies=request.cookies,
                          verify=False)
-        return proxify(r.text, path)
+        return proxify(r.text)
     if request.method == 'POST':
         r = requests.post(path,
                           data=request.form.to_dict(flat=True),
@@ -72,7 +72,7 @@ def browse(path):
                           headers=headers,
                           cookies=request.cookies,
                           verify=False)
-        return proxify(r.text, path)
+        return proxify(r.text)
 
 
 @app.route("/register")
