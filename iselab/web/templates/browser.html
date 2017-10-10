@@ -43,7 +43,7 @@
 
     $('#go').click(function() {
         back.push(current);
-        $('#iframe').attr('src', '/browse/' + $('#url').val())
+        $('#iframe').attr('src', '{{ URL }}/browse/' + $('#url').val())
         current = $('#url').val();
     });
 
@@ -52,7 +52,7 @@
         if (url != null) {
             next.push(current);
             $('#url').val(url);
-            $('#iframe').attr('src', '/browse/' + url);
+            $('#iframe').attr('src', '{{ URL }}/browse/' + url);
             current = url;
         }
     });
@@ -62,7 +62,7 @@
         if (url != null) {
             back.push(current);
             $('#url').val(url);
-            $('#iframe').attr('src', '/browse/' + url);
+            $('#iframe').attr('src', '{{ URL }}/browse/' + url);
             current = url;
         }
     });

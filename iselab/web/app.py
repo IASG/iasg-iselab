@@ -7,7 +7,7 @@ from flask_login import LoginManager, login_required, logout_user, login_user, c
 from peewee import DoesNotExist
 
 from iselab.models import User
-from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL, VPN_CONFIG, HOST, db
+from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL, VPN_CONFIG, db
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -22,20 +22,21 @@ def user_loader(user_id):
 
 @app.route("/")
 def index():
-    return render_template('index.html', vpn=VPN_CONFIG, host=HOST)
+    return render_template('index.html', vpn=VPN_CONFIG, URL=URL)
 
 
 @app.route("/webshell")
 @login_required
 def webshell():
     return render_template('term.html', wetty=WETTY,
-                           username=current_user.netid)
+                           username=current_user.netid,
+                           URL=URL)
 
 
 @app.route("/browser")
 @login_required
 def browser():
-    return render_template('browser.html')
+    return render_template('browser.html', URL=URL)
 
 
 def proxify(html, path):
@@ -86,7 +87,7 @@ def browse(path):
 
 @app.route("/register")
 def register():
-    return render_template('term.html', wetty=WETTY, username='iasg', register=True)
+    return render_template('term.html', wetty=WETTY, username='iasg', register=True, URL=URL)
 
 
 @app.route("/logout")

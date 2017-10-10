@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>IASG ISELab</title>
-    <link href="/static/hacker.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="/static/favicon.ico"/>
+    <link href="{{ URL }}/static/hacker.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{{ URL }}/static/favicon.ico"/>
 
     <style>
         .tall-row {
@@ -36,7 +36,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">IASG ISELab</a>
+            <a class="navbar-brand" href="{{ URL }}">IASG ISELab</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -44,13 +44,13 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu<span class="caret"></span> </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/webshell">Web Shell</a></li>
-                        <li><a href="/browser">Web Browser</a></li>
+                        <li><a href="{{ URL }}/webshell">Web Shell</a></li>
+                        <li><a href="{{ URL }}/browser">Web Browser</a></li>
                         {#<li><a href="#">Remote Desktop</a></li>#}
                     </ul>
                 </li>
                 <li>
-                    <a href="/logout">Logout {{ current_user }}</a>
+                    <a href="{{ URL }}/logout">Logout {{ current_user }}</a>
                 </li>
                 {% endif %}
             </ul>
@@ -64,7 +64,7 @@
 {% block footer %}
 <div class="row tall-row">
     <div class="col-md-12">
-        <p><a href="http://iasg.iac.iastate.edu">IASG</a> &copy; 2017 <a href="http://iasg.iac.iastate.edu">http://iasg.iac.iastate.edu</a></p>
+        <p><a href="https://iasg.iac.iastate.edu">IASG</a> &copy; 2017 <a href="https://iasg.iac.iastate.edu">https://iasg.iac.iastate.edu</a></p>
     </div>
 </div>
 {% endblock %}

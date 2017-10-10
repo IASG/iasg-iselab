@@ -18,7 +18,7 @@
         <p>This website allows you to interact with our virtual environment without leaving the comfort of your web browser!</p>
         {% endif %}
         <p>For support using ISELab, ask for help in the #iselab channel on <a href="https://iasg.slack.com">iasg.slack.com</a>, or contact us at <a href="mailto:iasg-cabinet@iastate.edu">iasg-cabinet@iastate.edu</a>.</p>
-        <form action="/login" method="post" id="netid-input">
+        <form action="{{ URL }}/login" method="post" id="netid-input">
             <div class="input-group" style="width:400px">
                 <input class="form-control" type="text" placeholder="netID" id="netid" name="username">
                 <span class="input-group-addon">@iastate.edu</span>
@@ -34,18 +34,18 @@
             <p>Run `ssh {{ current_user.netid }}@{{ host }}` from a terminal to access via SSH.</p>
             <br>
             <p>The web shell allows you to access a Kali Linux machine in ISELab from your web browser.</p>
-            <a class="btn btn-primary" href="/webshell">Web Shell</a>
+            <a class="btn btn-primary" href="{{ URL }}/webshell">Web Shell</a>
             <br><br>
             <p>The "web browser" allows you to access websites in ISELab from your web browser (very buggy).</p>
-            <a class="btn btn-primary" href="/browser">Web Browser</a>
+            <a class="btn btn-primary" href="{{ URL }}/browser">Web Browser</a>
             <br><br>
             {% if vpn %}
                 <p>The VPN allows you to place your own computer into the environment for full access. Requires an OpenVPN client to be installed.</p>
-                <a class="btn btn-primary" href="/vpn">VPN Config</a>
+                <a class="btn btn-primary" href="{{ URL }}/vpn">VPN Config</a>
             {% endif %}
         {% else %}
             <a class="btn btn-primary" id="login" role="button">Log In</a>
-            <a class="btn btn-primary" href="/register" id="register">Register</a>
+            <a class="btn btn-primary" href="{{ URL }}/register" id="register">Register</a>
         {% endif %}
     </div>
     {% endblock %}
