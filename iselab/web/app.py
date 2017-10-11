@@ -109,9 +109,9 @@ def login():
     if user:
         if user.verify_password(password):
             login_user(user)
-            return redirect('/')
+            return redirect(URL)
     flash('Login failed, try again.')
-    return redirect('/')
+    return redirect(URL)
 
 
 # This hook ensures that a connection is opened to handle any queries
