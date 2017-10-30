@@ -22,6 +22,8 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
+restricted_usernames = ('iasg', 'root',)
+
 
 def main():
     db_init()
@@ -31,6 +33,9 @@ def main():
     try:
         user = User.get(netid=username)
     except DoesNotExist:
+        if username in restricted_usernames:
+            logger.warning("Tried to create restricted username {}".format(username))
+            print("Just no.")
         logger.info("Username {} didn't exist, creating new user.".format(username))
         attempts = 0
         while not user:
@@ -60,6 +65,7 @@ def main():
     user.last_login = datetime.datetime.now()
     print("Welcome back, {}!".format(username))
     print("SSH into this host with your credentials, or use the VPN! Otherwise, there's nothing here.")
+
 
 if __name__ == '__main__':
     try:
