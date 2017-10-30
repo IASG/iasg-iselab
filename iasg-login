@@ -36,6 +36,7 @@ def main():
         if username in restricted_usernames:
             logger.warning("Tried to create restricted username {}".format(username))
             print("Just no.")
+            raise SystemExit
         logger.info("Username {} didn't exist, creating new user.".format(username))
         attempts = 0
         while not user:
