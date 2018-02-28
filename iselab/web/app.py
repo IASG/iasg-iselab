@@ -117,7 +117,7 @@ def password_reset(token):
             return redirect(URL)
         else:
             flash('Passwords do not match!')
-    return render_template('reset.html')
+    return render_template('reset.html', URL=URL)
 
 
 @app.route('/login', methods=['POST'])
