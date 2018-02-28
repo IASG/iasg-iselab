@@ -10,6 +10,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from os.path import basename
 from subprocess import run
+from typing import List
 
 from iselab import settings
 from iselab.models import User
@@ -25,6 +26,7 @@ TERMS = 'TERMS AND CONDITIONS: While ISELab is a safe environment for learning o
         '' \
         '' \
         '' \
+        '' \
         'held liable for any damages, ' \
         'whether physical, virtual, imaginary, anticipated, stress-related, or otherwise that may arise from the use ' \
         'of these ' \
@@ -34,8 +36,12 @@ TERMS = 'TERMS AND CONDITIONS: While ISELab is a safe environment for learning o
         '' \
         '' \
         '' \
+        '' \
         'you have fun!\n\n' \
         'By typing \'yes\' below, you affirm that you have read and understood the terms and conditions.'
+PASSWORD_RESET_EMAIL = "Hello {},\n\nWe're sorry you forgot your password. We'll let you set a new one so you can get " \
+                       "back to hacking things! Follow the link below to continue.\n\n{}\n\nThis link will expire in " \
+                       "24 hours. "
 
 
 def provision(username: str, password: str):
@@ -69,40 +75,45 @@ def random_string(length: int = 128) -> str:
 
 
 # Adapted from http://stackoverflow.com/a/8321609/1974978
-def send_verification_code(username):
-    verify = random_string(6)
-    logger.info("Sending verification to " + username)
-    data = "Hello {},\n\nWelcome to the IASG ISELab! Your verification code is: {}\n\n".format(username, verify)
-    if VPN_CONFIG:
-        data += "Also, in case you choose to use the VPN, a VPN configuration file is attached."
-    mailto = username + "@iastate.edu"
+def send_email(mailto: str, subject: str, body: str, attachments: List = []):
     if settings.SMTP_SERVER:
         msg = MIMEMultipart()
-        msg.attach(MIMEText(data))
-        if VPN_CONFIG:
-            with open(VPN_CONFIG, 'rb') as f:
+        msg.attach(MIMEText(body))
+        for file in attachments:
+            with open(file, 'rb') as f:
                 part = MIMEApplication(
                     f.read(),
-                    Name=basename(VPN_CONFIG)
+                    Name=basename(file)
                 )
-            part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(VPN_CONFIG))
+            part['Content-Disposition'] = 'attachment; filename="{}"'.format(basename(file))
             msg.attach(part)
-        msg['Subject'] = "IASG ISELab Verification Code"
+        msg['Subject'] = subject
         msg['To'] = mailto
         msg['From'] = settings.EMAIL_FROM
         mail = smtplib.SMTP(settings.SMTP_SERVER, settings.SMTP_PORT)
         mail.starttls()
         if settings.SMTP_USERNAME and settings.SMTP_PASSWORD:
             mail.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
-        mail.sendmail(settings.EMAIL_FROM, mailto, msg.as_string())
-        mail.quit()
+            mail.sendmail(settings.EMAIL_FROM, mailto, msg.as_string())
+            mail.quit()
     else:
         print("-------------------EMAIL-------------------")
-        print(data)
-        if VPN_CONFIG:
-            with open(VPN_CONFIG, 'rb') as f:
+        print(body)
+        for file in attachments:
+            with open(file, 'rb') as f:
                 print(f.read())
         print("--------------------END--------------------")
+
+
+def send_verification_code(username):
+    verify = random_string(6)
+    logger.info("Sending verification to " + username)
+    data = "Hello {},\n\nWelcome to the IASG ISELab! Your verification code is: {}\n\n".format(username, verify)
+    files = []
+    if VPN_CONFIG:
+        data += "Also, in case you choose to use the VPN, a VPN configuration file is attached."
+        files.append(VPN_CONFIG)
+    send_email(username + "@iastate.edu", "IASG ISELab Verification Code", data, files)
     return verify
 
 

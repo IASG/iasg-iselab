@@ -2,17 +2,20 @@ import re
 from urllib.parse import unquote
 
 import requests
-from flask import Flask, redirect, url_for, request, flash, render_template, make_response, send_file
+from flask import Flask, redirect, url_for, request, flash, render_template, make_response, send_file, abort
 from flask_login import LoginManager, login_required, logout_user, login_user, current_user
+from itsdangerous import URLSafeTimedSerializer
 from peewee import DoesNotExist
 
 from iselab.models import User
 from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL, VPN_CONFIG, db, HOST
+from iselab.utils import send_email, PASSWORD_RESET_EMAIL, change_password
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
 login_manager = LoginManager()
 login_manager.init_app(app)
+ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
 
 
 @login_manager.user_loader
@@ -97,15 +100,42 @@ def logout():
     return redirect(URL)
 
 
+@app.route("/reset/<token>", methods=['GET', 'POST'])
+def password_reset(token):
+    try:
+        netid = ts.loads(token, salt='reset-password', max_age=86400)
+    except:
+        abort(404)
+    if request.method == 'POST':
+        try:
+            user = User.get(netid=netid)
+        except DoesNotExist:
+            abort(404)
+        if request.form['password'] == request.form['password_again']:
+            change_password(user, request.form['password'])
+            flash('Password successfully changed!')
+            return redirect(URL)
+        else:
+            flash('Passwords do not match!')
+    return render_template('reset.html')
+
+
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
-    password = request.form['password']
     user = None
     try:
         user = User.get(netid=username)
     except DoesNotExist:
         pass
+    if request.form.get('reset'):
+        if user:
+            token = ts.dumps(user.netid, salt='reset-password')
+            send_email(user.netid + "@iastate.edu", "IASG ISELab Password Reset",
+                       PASSWORD_RESET_EMAIL.format(user.netid, URL + url_for('password_reset', token=token)))
+        flash('If an account exists for that Net-ID, you will receive an email with password reset instructions.')
+        return redirect(URL)
+    password = request.form['password']
     if user:
         if user.verify_password(password):
             login_user(user)

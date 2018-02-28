@@ -1,21 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
-<div class="container">
-    {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <div class="alert alert-dismissable alert-danger">
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
-
     <div class="jumbotron">
         <h1>IASG ISELab</h1>
         {% if not current_user.is_authenticated %}
-        <p>Welcome to the IASG ISELab website!</p>
-        <p>This website allows you to interact with our virtual environment without leaving the comfort of your web browser!</p>
+            <p>Welcome to the IASG ISELab website!</p>
+            <p>This website allows you to interact with our virtual environment without leaving the comfort of your web browser!</p>
         {% endif %}
         <p>For support using ISELab, ask for help in the #iselab channel on <a href="https://iasg.slack.com">iasg.slack.com</a>, or contact us at <a href="mailto:iasg-cabinet@iastate.edu">iasg-cabinet@iastate.edu</a>.</p>
         <form action="{{ URL }}/login" method="post" id="netid-input">
@@ -24,8 +13,10 @@
                 <span class="input-group-addon">@iastate.edu</span>
             </div>
             <input style="width:400px;" class="form-control" type="password" placeholder="*********" id="password" name="password">
+            <input type="hidden" id="reset" name="reset" value="">
             <br>
-            <input type="submit" class="btn btn-lg btn-primary" value="Go!">
+            <input type="submit" id="submit" class="btn btn-lg btn-primary" value="Go!">
+            <a id="resetpw" role="button">Forgot Password</a>
         </form>
         <br>
         {% if current_user.is_authenticated %}
@@ -48,9 +39,9 @@
             <a class="btn btn-primary" href="{{ URL }}/register" id="register">Register</a>
         {% endif %}
     </div>
-    {% endblock %}
+{% endblock %}
 
-    {% block script %}
+{% block script %}
     <script>
         var netid = false;
         $('#netid-input').hide();
@@ -65,5 +56,11 @@
                 $("#login").click();
             }
         });
+        $("#resetpw").click(function() {
+            $('#resetpw').hide();
+            $('#reset').val('true');
+            $('#password').hide();
+            $('#submit').val('Request Reset');
+        });
     </script>
-    {% endblock %}
+{% endblock %}
