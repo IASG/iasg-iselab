@@ -6,7 +6,7 @@ import logging
 from peewee import DoesNotExist
 
 from iselab.models import User, db_init
-from iselab.utils import create_user
+from iselab.utils import create_user, validate_netid
 
 WELCOME_MESSAGE = """### Welcome to the IASG ISELab!!! ###
 For assistance, join the #iselab channel on https://iasg.slack.com.
@@ -26,46 +26,55 @@ restricted_usernames = ('iasg', 'root',)
 
 
 def main():
-    db_init()
-    print(WELCOME_MESSAGE)
-    username = input("NetID: ")
-    user = None
     try:
-        user = User.get(netid=username)
-    except DoesNotExist:
-        if username in restricted_usernames:
-            logger.warning("Tried to create restricted username {}".format(username))
-            print("Just no.")
-            raise SystemExit
-        logger.info("Username {} didn't exist, creating new user.".format(username))
-        attempts = 0
-        while not user:
-            if attempts == 3:
-                print("Sorry.")
-                logger.warning("Disconnecting {} after 3 failed attempts.".format(username))
+        db_init()
+        print(WELCOME_MESSAGE)
+        username = ''
+        while not username or not validate_netid(username):
+            if username:
+                print("Please enter a valid ISU Net-ID.")
+                print()
+            username = input("Net-ID: ")
+        user = None
+        try:
+            user = User.get(netid=username)
+        except DoesNotExist:
+            if username in restricted_usernames:
+                logger.warning("Tried to create restricted username {}".format(username))
+                print("You can't be {}. Only I can be {}!".format(username, username))
                 raise SystemExit
-            create_user(username)
-            print("Account created successfully! Please SSH in again with your new credentials, or use the VPN.")
+            logger.info("Username {} didn't exist, creating new user.".format(username))
+            attempts = 0
+            while not user:
+                if attempts == 3:
+                    print("Sorry.")
+                    logger.warning("Disconnecting {} after 3 failed attempts.".format(username))
+                    raise SystemExit
+                create_user(username)
+                print("Account created successfully! Please SSH in again with your new credentials, or use the VPN.")
+                raise SystemExit
+        logger.info("User {} exists".format(username))
+        if user.locked:
+            logger.info("Locked account {} tried to login".format(username))
+            print("Your account is locked! Please request help in the #iselab channel on https://iasg.slack.com.")
             raise SystemExit
-    logger.info("User {} exists".format(username))
-    if user.locked:
-        logger.info("Locked account {} tried to login".format(username))
-        print("Your account is locked! Please request help in the #iselab channel on https://iasg.slack.com.")
-        raise SystemExit
-    attempts = 0
-    auth = False
-    while not auth:
-        password = getpass.getpass()
-        auth = user.verify_password(password)
-        attempts += 1
-        if attempts == 3:
-            user.locked = True
-            logger.warning("Locked account {} after 3 failed attempts".format(username))
-            print("Sorry, you're locked out. Please request help in the #iselab channel on https://iasg.slack.com.")
-            raise SystemExit
-    user.last_login = datetime.datetime.now()
-    print("Welcome back, {}!".format(username))
-    print("SSH into this host with your credentials, or use the VPN! Otherwise, there's nothing here.")
+        attempts = 0
+        auth = False
+        while not auth:
+            password = getpass.getpass()
+            auth = user.verify_password(password)
+            attempts += 1
+            if attempts == 3:
+                user.locked = True
+                logger.warning("Locked account {} after 3 failed attempts".format(username))
+                print("Sorry, you're locked out. Please request help in the #iselab channel on https://iasg.slack.com.")
+                raise SystemExit
+        user.last_login = datetime.datetime.now()
+        print("Welcome back, {}!".format(username))
+        print("SSH into this host with your credentials, or use the VPN! Otherwise, there's nothing here.")
+    except Exception:
+        print("Error! That wasn't supposed to happen! Contact IASG cabinet if the issue persists.")
+        logger.exception("Unhandled exception!")
 
 
 if __name__ == '__main__':

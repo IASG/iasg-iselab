@@ -23,12 +23,16 @@ TERMS = 'TERMS AND CONDITIONS: While ISELab is a safe environment for learning o
         'Notably, usage of this system is limited to educational purposes only, and you may not use ' \
         'this system to attack users or systems that are outside the environment. Under no circumstances will IASG be ' \
         '' \
+        '' \
+        '' \
         'held liable for any damages, ' \
         'whether physical, virtual, imaginary, anticipated, stress-related, or otherwise that may arise from the use ' \
         'of these ' \
         'systems. IASG is not responsible for any content that is introduced or caused to be introduced into the ' \
-        'environment.' \
+        'environment. ' \
         'Usage of this system may be logged and monitored for abuse. With all that in mind, it is most important that ' \
+        '' \
+        '' \
         '' \
         'you have fun!\n\n' \
         'By typing \'yes\' below, you affirm that you have read and understood the terms and conditions.'
@@ -39,14 +43,25 @@ def provision(username: str, password: str):
         run(["sudo", "useradd", username, "-G", "iasg-users", "-m"], check=True)
         os.system("echo {}:{} | sudo chpasswd".format(shlex.quote(username), shlex.quote(password)))
     except Exception as e:
-        logger.error("Error provisioning {}: {}".format(username, e))
+        logger.exception("Error provisioning {}".format(username))
         print("Warning!!! We couldn't fully set up your account. Get help in #iselab on https://iasg.slack.com.")
     else:
         logger.info("Provisioned {}".format(username))
 
 
-def validate_uid(username: str) -> str:
-    return re.sub(r'[^\d\w]', '', username)
+def change_password(user: User, new_password: str):
+    user.set_password(new_password)
+    user.save()
+    try:
+        os.system("echo {}:{} | sudo chpasswd".format(shlex.quote(user.netid), shlex.quote(new_password)))
+    except Exception as e:
+        logger.exception("Error changing password for {}".format(user.netid))
+        print("There was a problem changing your password in some places. Get help in #iselab on "
+              "https://iasg.slack.com.")
+
+
+def validate_netid(netid: str) -> bool:
+    return 3 <= len(netid) <= 8 and not re.search('[^\d\w]', netid)
 
 
 def random_string(length: int = 128) -> str:
@@ -111,7 +126,8 @@ def create_user(username: str) -> User:
         print("Bye.")
         raise SystemExit
     while True:
-        print("Now, create a password for ISELab. This *should not* be the same as your ISU password!")
+        print("Now, create a password for ISELab. This *should not* be the same as your ISU password! You may not see "
+              "the password while it is being typed below.")
         password = getpass.getpass()
         confirm_password = getpass.getpass("Confirm Password: ")
         if password == confirm_password:
