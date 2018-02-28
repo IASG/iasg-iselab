@@ -64,6 +64,8 @@ def change_password(user: User, new_password: str):
         logger.exception("Error changing password for {}".format(user.netid))
         print("There was a problem changing your password in some places. Get help in #iselab on "
               "https://iasg.slack.com.")
+    else:
+        logger.info('Changed password for {}'.format(user.netid))
 
 
 def validate_netid(netid: str) -> bool:
@@ -94,8 +96,8 @@ def send_email(mailto: str, subject: str, body: str, attachments: List = []):
         mail.starttls()
         if settings.SMTP_USERNAME and settings.SMTP_PASSWORD:
             mail.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
-            mail.sendmail(settings.EMAIL_FROM, mailto, msg.as_string())
-            mail.quit()
+        mail.sendmail(settings.EMAIL_FROM, mailto, msg.as_string())
+        mail.quit()
     else:
         print("-------------------EMAIL-------------------")
         print(body)
