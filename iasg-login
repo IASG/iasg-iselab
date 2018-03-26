@@ -6,7 +6,7 @@ import logging
 from peewee import DoesNotExist
 
 from iselab.models import User, db_init
-from iselab.utils import create_user, validate_netid
+from iselab.utils import create_user, validate_netid, restricted_usernames
 
 WELCOME_MESSAGE = """### Welcome to the IASG ISELab!!! ###
 For assistance, join the #iselab channel on https://iasg.slack.com.
@@ -21,8 +21,6 @@ fh.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
-
-restricted_usernames = ('iasg', 'root',)
 
 
 def main():

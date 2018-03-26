@@ -17,6 +17,7 @@ from iselab.models import User
 from iselab.settings import VPN_CONFIG
 
 logger = logging.getLogger('iasg')
+restricted_usernames = ('iasg', 'root',)
 
 TERMS = 'TERMS AND CONDITIONS: While ISELab is a safe environment for learning offensive and defensive information ' \
         'security skills, your activities and usage must remain ' \
@@ -56,6 +57,9 @@ def provision(username: str, password: str):
 
 
 def change_password(user: User, new_password: str):
+    if user.netid in restricted_usernames:
+        logger.warning("Tried to create restricted username {}".format(user.netid))
+        return
     user.set_password(new_password)
     user.save()
     try:
@@ -159,3 +163,5 @@ def create_user(username: str) -> User:
         else:
             print()
             print("Passwords didn't match! Try again.")
+
+
