@@ -112,8 +112,10 @@ def password_reset(token):
         except DoesNotExist:
             abort(404)
         if request.form['password'] == request.form['password_again']:
-            change_password(user, request.form['password'])
-            flash('Password successfully changed!')
+            if change_password(user, request.form['password']):
+                flash('Password successfully changed!')
+            else:
+                flash('Error changing password!')
             return redirect(URL)
         else:
             flash('Passwords do not match!')

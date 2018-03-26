@@ -56,10 +56,10 @@ def provision(username: str, password: str):
         logger.info("Provisioned {}".format(username))
 
 
-def change_password(user: User, new_password: str):
+def change_password(user: User, new_password: str) -> bool:
     if user.netid in restricted_usernames:
         logger.warning("Tried to create restricted username {}".format(user.netid))
-        return
+        return False
     user.set_password(new_password)
     user.save()
     try:
@@ -70,6 +70,7 @@ def change_password(user: User, new_password: str):
               "https://iasg.slack.com.")
     else:
         logger.info('Changed password for {}'.format(user.netid))
+        return True
 
 
 def validate_netid(netid: str) -> bool:
