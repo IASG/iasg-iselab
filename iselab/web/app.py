@@ -8,7 +8,7 @@ from itsdangerous import URLSafeTimedSerializer
 from peewee import DoesNotExist
 
 from iselab.models import User
-from iselab.settings import SECRET_KEY, WETTY, PROXIES, URL, VPN_CONFIG, db, HOST
+from iselab.settings import SECRET_KEY, PROXIES, URL, VPN_CONFIG, db, HOST
 from iselab.utils import send_email, PASSWORD_RESET_EMAIL, change_password
 
 app = Flask(__name__)
@@ -31,8 +31,7 @@ def index():
 @app.route("/webshell")
 @login_required
 def webshell():
-    return render_template('term.html', wetty=WETTY,
-                           username=current_user.netid,
+    return render_template('term.html', username=current_user.netid,
                            URL=URL)
 
 
@@ -90,7 +89,7 @@ def browse(path):
 
 @app.route("/register")
 def register():
-    return render_template('term.html', wetty=WETTY, username='iasg', register=True, URL=URL)
+    return render_template('term.html', username='iasg', register=True, URL=URL)
 
 
 @app.route("/logout")
