@@ -1,0 +1,7 @@
+#!/bin/bash
+# Assumes Kali VMs start at 199.100.16.101
+
+# There are 3 Kali VMs in the environment
+NUM_KALI=3
+
+sshpass -p 'toor' ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null root@199.100.16.10$(( ( RANDOM % $NUM_KALI )  + 1 ))

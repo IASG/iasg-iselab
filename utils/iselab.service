@@ -1,0 +1,10 @@
+[Unit]
+Description=IASG ISELab
+
+[Service]
+ExecStart=/usr/local/bin/gunicorn -b 127.0.0.1:5000 -w 16 iselab.web.app:app
+User=iasg
+Group=iasg
+
+[Install]
+WantedBy=multi-user.target

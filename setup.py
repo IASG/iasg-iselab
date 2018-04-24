@@ -13,6 +13,9 @@ setup(
     author_email='kokelley@iastate.edu',
     description='',
     scripts=['iasg-login', 'iasg-web'],
+    data_files=[('/usr/local/bin', ['utils/randssh']),
+                ('/etc/systemd/system', ['utils/iselab.service']),
+                ],
     include_package_data=True,
     zip_safe=False,
     install_requires=required

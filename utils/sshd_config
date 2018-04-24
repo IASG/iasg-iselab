@@ -1,0 +1,13 @@
+Match User iasg
+    X11Forwarding no
+    AllowTcpForwarding no
+    ClientAliveInterval 600
+    ClientAliveCountMax 0
+    ForceCommand iasg-login 
+
+Match Group iasg-users
+    AllowTcpForwarding no
+    X11Forwarding yes
+    ClientAliveInterval 600
+    ClientAliveCountMax 0
+    ForceCommand /usr/local/bin/randssh

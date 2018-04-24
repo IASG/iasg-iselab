@@ -1,5 +1,6 @@
-flask
-flask-login
+Flask
+Flask-Login
+gunicorn
 ldap3==2.2.4
 passlib==1.7.1
 peewee==2.10.1
