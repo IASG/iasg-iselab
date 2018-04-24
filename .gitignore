@@ -6,3 +6,4 @@ settings_local.py
 *.db
 *.ovpn
 *.log
+.venv
